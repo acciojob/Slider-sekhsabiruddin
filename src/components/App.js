@@ -1,100 +1,83 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const App = () => {
   const data = [
     {
       id: 1,
+      name: "susan smith",
+      job: "web developer",
       image:
-        "https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959131/person-2_ipcjws.jpg",
-      name: "maria ferguson",
-      title: "office manager",
-      quote:
-        "Fingerstache umami squid, kinfolk subway tile selvage tumblr man braid viral kombucha gentrify fanny pack raclette pok pok mustache.",
+        "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883334/person-1_rfzshl.jpg",
+      text: "I'm baby meggings twee health goth +1. Bicycle rights tumeric chartreuse before they sold out chambray pop-up. Shaman humblebrag pickled coloring book salvia hoodie, cold-pressed four dollar toast everyday carry",
     },
     {
       id: 2,
+      name: "anna johnson",
+      job: "web designer",
       image:
-        "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883417/person-3_ipa0mj.jpg",
-      name: "john doe",
-      title: "regular guy",
-      quote:
-        "Gastropub sustainable tousled prism occupy. Viral XOXO roof party brunch actually, chambray listicle microdosing put a bird on it paleo subway tile squid umami.",
+        "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883409/person-2_np9x5l.jpg",
+      text: "Helvetica artisan kinfolk thundercats lumbersexual blue bottle. Disrupt glossier gastropub deep v vice franzen hell of brooklyn twee enamel pin fashion axe.photo booth jean shorts artisan narwhal.",
     },
     {
       id: 3,
+      name: "peter jones",
+      job: "intern",
       image:
-        "https://res.cloudinary.com/diqqf3eq2/image/upload/v1595959121/person-1_aufeoq.jpg",
-      name: "peter smith",
-      title: "product designer",
-      quote:
-        "Drinking vinegar polaroid street art echo park, actually semiotics next level butcher master cleanse hammock flexitarian ethical paleo.",
+        "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883417/person-3_ipa0mj.jpg",
+      text: "Sriracha literally flexitarian irony, vape marfa unicorn. Glossier tattooed 8-bit, fixie waistcoat offal activated charcoal slow-carb marfa hell of pabst raclette post-ironic jianbing swag.",
     },
     {
       id: 4,
+      name: "bill anderson",
+      job: "the boss",
       image:
-        "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883334/person-1_rfzshl.jpg",
-      name: "susan andersen",
-      title: "the boss",
-      quote:
-        "Marfa af yr 3 wolf moon kogi, readymade distillery asymmetrical seitan kale chips fingerstache cloud bread mustache twee messenger bag. ",
+        "https://res.cloudinary.com/diqqf3eq2/image/upload/v1586883423/person-4_t9nxjt.jpg",
+      text: "Edison bulb put a bird on it humblebrag, marfa pok pok heirloom fashion axe cray stumptown venmo actually seitan. VHS farm-to-table schlitz, edison bulb pop-up 3 wolf moon tote bag street art shabby chic. ",
     },
   ];
 
   const [currentReview, setCurrentReview] = useState(0);
 
-  const nextReview = () => {
-    setCurrentReview((currentReview + 1) % data.length);
-  };
-
   const prevReview = () => {
     setCurrentReview((currentReview - 1 + data.length) % data.length);
   };
 
+  const nextReview = () => {
+    setCurrentReview((currentReview + 1) % data.length);
+  };
+
   const randomReview = () => {
-    const randomIndex = Math.floor(Math.random() * data.length);
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * data.length);
+    } while (randomIndex === currentReview);
     setCurrentReview(randomIndex);
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      nextReview();
-    }, 3000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
   return (
     <div>
-      <h1 id="review-heading">Reviews</h1>
-      <div id="review-container">
-        {data.map((element, index) => (
-          <div
-            key={element.id}
-            className={index === currentReview ? "slide active" : "slide"}
-          >
-            <h2 id={"person" + "-" + index}>{element.name}</h2>
-            <img
-              src={element.image}
-              alt="pic"
-              id={"person" + "-" + index + "-" + "image"}
-              className="image-div"
-            />
-            <h3>{element.title}</h3>
-            <p>{element.quote}</p>
-          </div>
-        ))}
+      <h1 id="review-heading">Our Reviews</h1>
+      <div className="review">
+        <div className="person-img">
+          <img src={data[currentReview].image} alt={data[currentReview].name} />
+        </div>
+        <h2 id={`author-${data[currentReview].id}`}>
+          {data[currentReview].name}
+        </h2>
+        <p className="job">{data[currentReview].job}</p>
+        <p className="info">{data[currentReview].text}</p>
       </div>
-      <button className="prev" onClick={prevReview}>
-        Prev
-      </button>
-      <button className="next" onClick={nextReview}>
-        Next
-      </button>
-      <button className="random" onClick={randomReview}>
-        Random
-      </button>
+      <div className="buttons">
+        <button className="prev-btn" onClick={prevReview}>
+          Previous
+        </button>
+        <button className="next-btn" onClick={nextReview}>
+          Next
+        </button>
+        <button className="random-btn" onClick={randomReview}>
+          Surprise Me
+        </button>
+      </div>
     </div>
   );
 };
